@@ -1,0 +1,25 @@
+#Extract cluster id on file
+
+# Create files to store cluster id and spheres coordinates
+spheres_file = open("spheres.sph")
+clusters = open("clusters_id.txt", "w")
+coordinates = open("coordinates.txt", "w")
+
+for line in spheres_file:
+	line = line.lstrip().split() # Remove spaces and transform each line in a list to iterate over
+	
+	if line[0] == "cluster" and line[1] != "0": # Save clusters id to file, excluding cluster 0	
+		clusters.write(line[1])
+		clusters.write("\n")
+		
+	if line[1] == "0":
+		print "This is cluster 0. The program will stop collecting spheres coordinates."
+		break 
+		
+	elif line[0] != "cluster" and line[0] != "DOCK": # Output xyz coordinates of spheres
+		coordinates_xyz = ("x: " + line[1] + " ; " + "y: " + line[2] + " ; " + "z: " + line[3])
+		coordinates.write(coordinates_xyz)
+		coordinates.write("\n")
+    
+clusters.close()
+coordinates.close()
